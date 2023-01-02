@@ -24,6 +24,8 @@ app.post('/users', checksExistsUserAccount, (request, response) => {
   const { name, username } = request.body
 
   users.push({id: uuidv4, name, username, todos: []})
+  
+  return response.status(201).json({msg: "Usuário criado com suesso"})
 });
 
 app.get('/todos', checksExistsUserAccount, (request, response) => {
