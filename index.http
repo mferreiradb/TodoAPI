@@ -1,3 +1,7 @@
+GET http://localhost:3333/users
+
+###
+
 POST http://localhost:3333/users
 Content-Type: application/json
 
@@ -8,4 +12,10 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3333/users
+POST http://localhost:3333/todos
+Content-Type: application/json
+
+{
+    "title": "teste",
+    "deadline": "2023-05-01"
+}
