@@ -20,10 +20,15 @@ function checksExistsUserAccount(request, response, next) {
   return next()
 }
 
-app.post('/users', checksExistsUserAccount, (request, response) => {
+app.get('/users', (request, response) => {
+  
+  return response.json({users})
+});
+
+app.post('/users', (request, response) => {
   const { name, username } = request.body
 
-  users.push({id: uuidv4, name, username, todos: []})
+  users.push({ name, username, id: uuidv4(), todos: []})
   
   return response.status(201).json({msg: "Usuário criado com suesso"})
 });
