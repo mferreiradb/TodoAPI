@@ -91,7 +91,7 @@ app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
 
 	if (todo) {
 		user.todos.splice(todo, 1);
-		return response.status(204).json({msg: 'Tarefa excluída', tarefas: user.todos});
+		return response.status(204).send('Tarefa excluída com sucesso');
 	} else {
 		return response.status(404).json({msg: 'Tarefa não encontrado'});	
 	}
