@@ -24,11 +24,6 @@ function checksExistsUserAccount(request, response, next) {
 	return next();
 }
 
-app.get('/users', checksExistsUserAccount, (request, response) => {
-  
-	return response.json({users});
-});
-
 app.post('/users', (request, response) => {
 	const { name, username } = request.body;
 	const user = users.some((user) => user.username == username);
@@ -37,7 +32,8 @@ app.post('/users', (request, response) => {
 		return response.status(400).json({error: 'Conta já registrada'});
 	} else {
 		users.push({ name, username, id: uuidv4(), todos: []});
-		return response.status(201).json({msg: 'Usuário criado com suesso'});
+		const userCreated = users.find((user) => user.username == username );
+		return response.status(201).json({msg: 'Usuário criado com suesso', userCreated});
 	}
 });
 
