@@ -7,53 +7,72 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const users = [];
+const users = [
+	{'name': 'Mauricio', 'username': 'mferreiradb', id: uuidv4(), todos: [
+		{title: 'Test', deadline: '2023-01-05', done: false, id: uuidv4(), createdAt: new Date('2023-01-01')},
+	]},
+];
 
 function checksExistsUserAccount(request, response, next) {
-  const {username} = request.headers
+	const {username} = request.headers;
 
-  const user = users.find((user) => user.username == username )
+	const user = users.find((user) => user.username == username );
   
-  !user && response.status(400).json({ error: 'Conta não encontrada' })
+	!user && response.status(400).json({ error: 'Conta não encontrada' });
 
-  request.user = user
-  return next()
+	request.user = user;
+	return next();
 }
 
-app.get('/users', (request, response) => {
+app.get('/users', checksExistsUserAccount, (request, response) => {
   
-  return response.json({users})
+	return response.json({users});
 });
 
 app.post('/users', (request, response) => {
-  const { name, username } = request.body
+	const { name, username } = request.body;
+	const user = users.some((user) => user.username == username);
 
-  users.push({ name, username, id: uuidv4(), todos: []})
-  
-  return response.status(201).json({msg: "Usuário criado com suesso"})
+	if(user) {
+		return response.status(400).json({error: 'Conta já registrada'});
+	} else {
+		users.push({ name, username, id: uuidv4(), todos: []});
+		return response.status(201).json({msg: 'Usuário criado com suesso'});
+	}
 });
 
 app.get('/todos', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+	const { user } = request;
+
+	return response.json(user.todos);
 });
 
 app.post('/todos', checksExistsUserAccount, (request, response) => {
-  const { title, deadline } = req.body
-  const { user } = req
+	const { title, deadline } = request.body;
+	const { user } = request;
 
-  user.totos.push({title, deadline, done: false, id: uuidv4(), createdAt: new Date()})
+	user.todos.push({title, deadline: new Date(deadline), done: false, id: uuidv4(), createdAt: new Date()});
+
+	return response.status(201).json({msg: 'Tarefa criada'});
 });
 
 app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+	const { id } = request.params;
+	const { user } = request;
+
+	if (user.id == id) {
+		return response.json(user.todos);
+	} else {
+		return response.status(400).json({msg: 'usuario não encontrado'});
+	}
 });
 
 app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+	// Complete aqui
 });
 
 app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+	// Complete aqui
 });
 
 module.exports = app;
