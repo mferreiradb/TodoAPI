@@ -31,7 +31,7 @@ app.post('/users', (request, response) => {
 	if(user) {
 		return response.status(400).json({error: 'Conta já registrada'});
 	} else {
-		users.push({ name, username, id: uuidv4(), todos: []});
+		users.push({ id: uuidv4(), name, username, todos: []});
 		const userCreated = users.find((user) => user.username == username );
 		return response.status(201).json({msg: 'Usuário criado com suesso', userCreated});
 	}
