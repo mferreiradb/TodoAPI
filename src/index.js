@@ -58,14 +58,19 @@ app.post('/todos', checksExistsUserAccount, (request, response) => {
 
 app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
 	const { id } = request.params;
+	const { title, deadline } = request.body;
 	const { user } = request;
+	const todo = user.todos.find((todo)=> todo.id == id);
 
-	if (user.id == id) {
-		return response.json(user.todos);
+	if (todo) {
+		todo.title = title;
+		todo.deadline = deadline;
+		return response.json({msg: 'Tarefa atualizada', todo});
 	} else {
-		return response.status(400).json({msg: 'usuario não encontrado'});
+		return response.status(400).json({msg: 'Tarefa não encontrado'});
 	}
 });
+
 
 app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
 	// Complete aqui
