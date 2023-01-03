@@ -18,7 +18,7 @@ const users = [
 				deadline: '2023-01-05',
 				done: false,
 				id: uuidv4(),
-				createdAt: new Date('2023-01-01'),
+				created_at: new Date('2023-01-01'),
 			},
 		],
 	},
@@ -65,7 +65,7 @@ app.post('/todos', checksExistsUserAccount, (request, response) => {
 		title,
 		done: false,
 		deadline: new Date(deadline),
-		createdAt: new Date(),
+		created_at: new Date(),
 	};
 
 	user.todos.push(todo);
@@ -74,9 +74,9 @@ app.post('/todos', checksExistsUserAccount, (request, response) => {
 });
 
 app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
-	const { id } = request.params;
-	const { title, deadline } = request.body;
 	const { user } = request;
+	const { title, deadline } = request.body;
+	const { id } = request.params;
 	const todo = user.todos.find((todo) => todo.id == id);
 
 	if (todo) {
