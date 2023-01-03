@@ -67,7 +67,7 @@ app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
 		todo.deadline = deadline;
 		return response.status(200).json({msg: 'Tarefa atualizada', todo});
 	} else {
-		return response.status(400).json({msg: 'Tarefa não encontrado'});
+		return response.status(404).json({msg: 'Tarefa não encontrado'});
 	}
 });
 
@@ -80,7 +80,7 @@ app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
 		todo.done = true;
 		return response.status(200).json({msg: 'Tarefa atualizada', todo});
 	} else {
-		return response.status(400).json({msg: 'Tarefa não encontrado'});	
+		return response.status(404).json({msg: 'Tarefa não encontrado'});	
 	}
 });
 
@@ -93,7 +93,7 @@ app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
 		user.todos.splice(todo, 1);
 		return response.status(200).json({msg: 'Tarefa excluída', tarefas: user.todos});
 	} else {
-		return response.status(400).json({msg: 'Tarefa não encontrado'});	
+		return response.status(404).json({msg: 'Tarefa não encontrado'});	
 	}
 });
 
