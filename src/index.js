@@ -108,8 +108,8 @@ app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
 	if (!todo) {
 		return response.status(404).json({ msg: 'Todo not found' });
 	}
-	user.todos.splice(todo, 1);
-	return response.json(todo);
+	todo.done = true;
+	return response.status(204).send('Tarefa excluída com sucesso');
 });
 
 module.exports = app;
