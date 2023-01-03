@@ -18,7 +18,7 @@ function checksExistsUserAccount(request, response, next) {
 
 	const user = users.find((user) => user.username == username );
   
-	!user && response.status(400).json({ error: 'Conta não encontrada' });
+	!user && response.status(404).json({ error: 'Conta não encontrada' });
 
 	request.user = user;
 	return next();
