@@ -92,12 +92,12 @@ app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
 	const { id } = request.params;
 	const todo = user.todos.find((todo) => todo.id == id);
 
-	if (todo) {
-		todo.done = true;
-		return response.status(200).json({ msg: 'Tarefa atualizada', todo });
-	} else {
-		return response.status(404).json({ msg: 'Tarefa não encontrado' });
+	if (!todo) {
+		return response.status(404).json({ msg: 'Todo not found' });
 	}
+	todo.done = true;
+	return response.json(todo);
+	
 });
 
 app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
@@ -105,12 +105,11 @@ app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
 	const { id } = request.params;
 	const todo = user.todos.find((todo) => todo.id == id);
 
-	if (todo) {
-		user.todos.splice(todo, 1);
-		return response.status(204).send('Tarefa excluída com sucesso');
-	} else {
-		return response.status(404).json({ msg: 'Tarefa não encontrado' });
+	if (!todo) {
+		return response.status(404).json({ msg: 'Todo not found' });
 	}
+	user.todos.splice(todo, 1);
+	return response.json(todo);
 });
 
 module.exports = app;
